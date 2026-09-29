@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ComicCraft - AI Comic Story Creator</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(
+                135deg,
+                #f7f2ff,
+                #eef7ff
+            );
+            min-height: 100vh;
+            color: #222;
+        }
+
+        /* ---------------- HEADER ---------------- */
+
+        header {
+            background: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #6c3cff;
+        }
+
+        .tagline {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* ---------------- MAIN ---------------- */
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 50px auto;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+            color: #222;
+        }
+
+        .hero h1 span {
+            color: #6c3cff;
+        }
+
+        .hero p {
+            color: #666;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        /* ---------------- FORM CARD ---------------- */
+
+        .form-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.10);
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #6c3cff;
+            box-shadow: 0 0 0 3px rgba(108,60,255,0.10);
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* ---------------- BUTTON ---------------- */
+
+        .generate-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(
+                135deg,
+                #6c3cff,
+                #9147ff
+            );
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(108,60,255,0.25);
+        }
+
+        /* ---------------- ERROR ---------------- */
+
+        .error {
+            background: #ffecec;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* ---------------- FOOTER ---------------- */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* ---------------- MOBILE ---------------- */
+
+        @media (max-width: 700px) {
+
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+
+            header {
+                padding: 18px 5%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            🎨 ComicCraft
+        </div>
+
+        <div class="tagline">
+            AI Comic Story Creator
+        </div>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="container">
+
+        <section class="hero">
+
+            <h1>
+                Create Your <span>AI Comic</span>
+            </h1>
+
+            <p>
+                Turn your imagination into a comic story
+                with AI-generated panels, narration,
+                dialogue and illustrations.
+            </p>
+
+        </section>
+
+
+        <!-- FORM -->
+
+        <div class="form-card">
+
+            {% if error %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <form action="/generate"
+                  method="post">
+
+
+                <!-- STORY PROMPT -->
+
+                <div class="form-group">
+
+                    <label for="story_prompt">
+                        ✍️ Story Prompt
+                    </label>
+
+                    <textarea
+                        id="story_prompt"
+                        name="story_prompt"
+                        placeholder="Describe your comic story idea..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- CHARACTER -->
+
+                <div class="form-group">
+
+                    <label for="character_name">
+                        🧑 Character Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="character_name"
+                        name="character_name"
+                        placeholder="Example: Arjun"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- SETTING + TONE -->
+
+                <div class="row">
+
+                    <div class="form-group">
+
+                        <label for="setting">
+                            🌍 Setting
+                        </label>
+
+                        <input
+                            type="text"
+                            id="setting"
+                            name="setting"
+                            placeholder="Example: Chennai city"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="tone">
+                            🎭 Tone
+                        </label>
+
+                        <select
+                            id="tone"
+                            name="tone"
+                            required
+                        >
+
+                            <option value="">
+                                Select tone
+                            </option>
+
+                            <option value="Funny">
+                                Funny
+                            </option>
+
+                            <option value="Adventure">
+                                Adventure
+                            </option>
+
+                            <option value="Emotional">
+                                Emotional
+                            </option>
+
+                            <option value="Fantasy">
+                                Fantasy
+                            </option>
+
+                            <option value="Mystery">
+                                Mystery
+                            </option>
+
+                            <option value="Action">
+                                Action
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ART STYLE -->
+
+                <div class="form-group">
+
+                    <label for="art_style">
+                        🖌️ Art Style
+                    </label>
+
+                    <select
+                        id="art_style"
+                        name="art_style"
+                        required
+                    >
+
+                        <option value="">
+                            Select art style
+                        </option>
+
+                        <option value="Comic Book">
+                            Comic Book
+                        </option>
+
+                        <option value="Cartoon">
+                            Cartoon
+                        </option>
+
+                        <option value="Manga">
+                            Manga
+                        </option>
+
+                        <option value="Realistic">
+                            Realistic
+                        </option>
+
+                        <option value="Watercolor">
+                            Watercolor
+                        </option>
+
+                        <option value="Digital Art">
+                            Digital Art
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="generate-btn"
+                >
+
+                    🚀 Generate My Comic
+
+                </button>
+
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        © 2026 ComicCraft · AI Comic Story Creator
+
+    </footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ComicCraft - Your Comic</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff4e6,
+                    #f3e8ff
+                );
+
+            color: #222;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 45px;
+            margin: 0 0 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .comic-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.10);
+        }
+
+        .panel-number {
+            display: inline-block;
+
+            background: #6c4cff;
+            color: white;
+
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            margin-bottom: 12px;
+        }
+
+        .panel-title {
+            font-size: 28px;
+            margin: 5px 0 20px;
+        }
+
+        .panel-image {
+            width: 100%;
+            max-width: 600px;
+
+            display: block;
+
+            margin: 0 auto 25px;
+
+            border-radius: 15px;
+
+            border: 3px solid #eee;
+
+            box-shadow:
+                0 10px 25px
+                rgba(0, 0, 0, 0.12);
+        }
+
+        .section {
+            margin-top: 18px;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: bold;
+
+            color: #6c4cff;
+
+            margin-bottom: 7px;
+        }
+
+        .section-text {
+            line-height: 1.7;
+            color: #444;
+        }
+
+        .dialogue {
+            background: #f3e8ff;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+
+            justify-content: center;
+
+            margin: 35px 0;
+        }
+
+        .button {
+            display: inline-block;
+
+            padding: 14px 25px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            color: white;
+
+            background: #6c4cff;
+        }
+
+        .button:hover {
+            background: #5436d8;
+        }
+
+        .button.secondary {
+            background: #333;
+        }
+
+        .footer {
+            text-align: center;
+
+            color: #777;
+
+            margin: 30px 0;
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: 95%;
+            }
+
+            .comic-card {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 34px;
+            }
+
+            .panel-title {
+                font-size: 23px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .button {
+                text-align: center;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>🎨 ComicCraft</h1>
+
+        <p>
+            Your AI-generated comic is ready!
+        </p>
+
+    </div>
+
+
+    <!-- COMIC PANELS -->
+
+    {% if layout %}
+
+        {% for panel in layout %}
+
+        <div class="comic-card">
+
+            <div class="panel-number">
+
+                Panel {{ panel.panel_number }}
+
+            </div>
+
+
+            <h2 class="panel-title">
+
+                {{ panel.title }}
+
+            </h2>
+
+
+            <!-- IMAGE -->
+
+            {% if panel.image_path %}
+
+                <img
+                    src="{{ panel.image_path }}"
+                    alt="Comic Panel {{ panel.panel_number }}"
+                    class="panel-image"
+                >
+
+            {% endif %}
+
+
+            <!-- SCENE -->
+
+            {% if panel.scene_description %}
+
+            <div class="section">
+
+                <div class="section-title">
+                    🎬 Scene
+                </div>
+
+                <div class="section-text">
+
+                    {{ panel.scene_description }}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- NARRATION -->
+
+            {% if panel.narration %}
+
+            <div class="section">
+
+                <div class="section-title">
+                    📖 Narration
+                </div>
+
+                <div class="section-text">
+
+                    {{ panel.narration }}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- DIALOGUE -->
+
+            {% if panel.dialogue %}
+
+            <div class="section">
+
+                <div class="section-title">
+                    💬 Dialogue
+                </div>
+
+                <div class="dialogue">
+
+                    {{ panel.dialogue }}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="comic-card">
+
+            <h2>No comic panels were generated.</h2>
+
+            <p>
+                Please go back and try generating the comic again.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- BUTTONS -->
+
+    <div class="buttons">
+
+        {% if pdf_path %}
+
+        <a
+            href="{{ pdf_path }}"
+            class="button"
+            target="_blank"
+        >
+            📄 Download PDF
+        </a>
+
+        {% endif %}
+
+
+        <a
+            href="/"
+            class="button secondary"
+        >
+            🔄 Create Another Comic
+        </a>
+
+    </div>
+
+
+    <div class="footer">
+
+        ComicCraft • AI Comic Story Creator
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

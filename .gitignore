@@ -1,0 +1,11 @@
+.env
+comiccraft-env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+static/panels/*.png
+static/exports/*.pdf
+
+.vscode/

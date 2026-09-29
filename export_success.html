@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Comic Exported - ComicCraft</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background:
+                linear-gradient(
+                    135deg,
+                    #e8fff2,
+                    #f3e8ff
+                );
+        }
+
+        .card {
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.1);
+        }
+
+        .icon {
+            font-size: 70px;
+        }
+
+        h1 {
+            font-size: 35px;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 24px;
+            border-radius: 10px;
+            background: #6c4cff;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="icon">
+        🎉
+    </div>
+
+    <h1>
+        Your Comic Is Ready!
+    </h1>
+
+    <p>
+        Your AI-powered comic has been successfully
+        created and exported.
+    </p>
+
+    {% if pdf_path %}
+
+    <a href="{{ pdf_path }}"
+       download>
+        📥 Download PDF
+    </a>
+
+    {% endif %}
+
+    <br>
+
+    <a href="/">
+        ✨ Go Create Another Comic
+    </a>
+
+</div>
+
+</body>
+
+</html>
